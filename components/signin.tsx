@@ -1,6 +1,6 @@
 // components/SignInForm.js
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -15,6 +15,11 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { FaGoogle } from "react-icons/fa";
+import Link from "next/link";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "@/app/firebase/config";
+import { useRouter } from "next/navigation";
+import {useAuthState} from "react-firebase-hooks/auth"
 
 const FormSchema = z.object({
   email: z.string().email("Invalid email address"),
@@ -22,6 +27,17 @@ const FormSchema = z.object({
 });
 
 export default function SignInForm() {
+  // const user = auth.currentUser;
+  const [user] = useAuthState(auth); 
+  const router = useRouter();
+  if(user){
+    router.push("/")
+  }
+  else{
+    console.log(user);
+  }
+  const [showError, setShowError] = useState<string>("")
+
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
@@ -29,18 +45,29 @@ export default function SignInForm() {
       password: "",
     },
   });
-
-  function onSubmit(data: z.infer<typeof FormSchema>) {}
+  console.log(user);
+  async function onSubmit(data: z.infer<typeof FormSchema>) {
+    await signInWithEmailAndPassword(auth, data.email,data.password).then((userCredential)=>{
+      const user = userCredential.user;
+      console.log(user);
+      router.push("/")
+    }).catch((error)=>{
+      const errorCode = error.code;
+    const errorMessage = error.message;
+    setShowError(errorCode.slice(5).replaceAll("-"," "))
+    console.log(errorCode);
+    })
+  }
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
       <div className="w-full max-w-md p-8 space-y-6 bg-white rounded-md shadow-md">
         <h2 className="text-2xl font-bold text-center">Sign In</h2>
         <Form {...form}>
-          <form
-            onSubmit={form.handleSubmit(onSubmit)}
-            className="space-y-6"
-          >
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+            <FormMessage>
+              {showError}
+            </FormMessage>
             <FormField
               control={form.control}
               name="email"
@@ -61,7 +88,7 @@ export default function SignInForm() {
                 <FormItem>
                   <FormLabel>Password</FormLabel>
                   <FormControl>
-                    <Input placeholder="*****"{...field} />
+                    <Input type="password" placeholder="*****" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -74,13 +101,15 @@ export default function SignInForm() {
           </form>
         </Form>
 
-        <div className="text-center">
-          Or
-        </div>
+        <p className="text-center">
+          {`Don't`} have an account 
+          <Link href={"/auth/signup"} className="underline ms-2 text-indigo-500">Sign Up</Link>
+        </p>
+        <div className="text-center">Or</div>
 
-        <Button className="w-full flex gap-4" variant={'secondary'}> 
-          <FaGoogle className="text-xl"/>
-          <p>Sign In With Google</p> 
+        <Button className="w-full flex gap-4" variant={"secondary"}>
+          <FaGoogle className="text-xl" />
+          <p>Sign In With Google</p>
         </Button>
       </div>
     </div>

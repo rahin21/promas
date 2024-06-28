@@ -40,7 +40,7 @@ export default function SignupForm() {
 
   async function onSubmit(data: z.infer<typeof FormSchema>) {
     try {
-      createUserWithEmailAndPassword(auth,data.email,data.password).then((userCredential)=>{
+      await createUserWithEmailAndPassword(auth,data.email,data.password).then((userCredential)=>{
         const user = userCredential.user
         router.push('/auth/signin')
       }).catch((error)=>{
