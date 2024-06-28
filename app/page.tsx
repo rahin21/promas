@@ -1,25 +1,35 @@
-"use client"
+"use client";
 import { auth } from "./firebase/config";
-import { useRouter } from "next/navigation";;
+import { useRouter } from "next/navigation";
 import LogoutButton from "@/components/logoutButton";
-import {useAuthState} from "react-firebase-hooks/auth"
+import { useAuthState } from "react-firebase-hooks/auth";
+import { useEffect } from "react";
 
 export default function Home() {
   const router = useRouter();
-  // const user = auth;
-  const [user] = useAuthState(auth); 
-  
-  if(!user){
-    router.push("/auth/signin")
-  }
-  else{
-    console.log(user);
+  const [user, loading, error] = useAuthState(auth);
+
+  useEffect(() => {
+    if (!loading && !user) {
+      router.push("/auth/signin");
+    }
+  }, [user, loading, router]);
+
+  if (loading) {
+    return <p>Loading...</p>;
   }
 
+  if (error) {
+    return <p>Error: {error.message}</p>;
+  }
 
-  return (
-    <main>
-      <LogoutButton/>
-    </main>
-  );
+  if (user) {
+    return (
+      <main>
+        <LogoutButton />
+      </main>
+    );
+  }
+
+  return null; // or a loading indicator while the redirect happens
 }
