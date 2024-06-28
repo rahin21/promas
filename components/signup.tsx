@@ -1,6 +1,6 @@
 "use client";
 // components/SignupForm.js
-import React from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -14,7 +14,11 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Label } from "./ui/label";
+import { auth } from "@/app/firebase/config";
+import { useRouter } from "next/navigation";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+auth;
+
 
 const FormSchema = z.object({
   email: z.string().email("Invalid email address"),
@@ -22,6 +26,10 @@ const FormSchema = z.object({
 });
 
 export default function SignupForm() {
+
+  const [showError, setShowError] = useState<string>("")
+  const router = useRouter();
+
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
@@ -30,17 +38,28 @@ export default function SignupForm() {
     },
   });
 
-  function onSubmit(data: z.infer<typeof FormSchema>) {}
+  async function onSubmit(data: z.infer<typeof FormSchema>) {
+    try {
+      createUserWithEmailAndPassword(auth,data.email,data.password).then((userCredential)=>{
+        const user = userCredential.user
+        router.push('/auth/signin')
+      }).catch((error)=>{
+        const errorCode = error.code;
+        
+        console.log(errorCode);
+        setShowError(errorCode.slice(5).replaceAll("-", " "));
+      })
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
       <div className="w-full max-w-md p-8 space-y-6 bg-white rounded-md shadow-md">
         <h2 className="text-2xl font-bold text-center">Sign Up</h2>
         <Form {...form}>
-          <form
-            onSubmit={form.handleSubmit(onSubmit)}
-            className="space-y-6"
-          >
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
             <FormField
               control={form.control}
               name="email"
@@ -61,12 +80,15 @@ export default function SignupForm() {
                 <FormItem>
                   <FormLabel>Password</FormLabel>
                   <FormControl>
-                    <Input placeholder="*****"{...field} />
+                    <Input type="password" placeholder="*****" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
+            <FormMessage>
+              {showError}
+            </FormMessage>
 
             <Button type="submit" className="w-full">
               Sign Up
