@@ -1,9 +1,11 @@
 "use client";
-import { auth } from "./firebase/config";
+import { auth } from "@/app/firebase/config";
 import { useRouter } from "next/navigation";
 import LogoutButton from "@/components/logoutButton";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useEffect } from "react";
+import { ImSpinner9 } from "react-icons/im";
+
 
 export default function Home() {
   const router = useRouter();
@@ -16,7 +18,12 @@ export default function Home() {
   }, [user, loading, router]);
 
   if (loading) {
-    return <p>Loading...</p>;
+    return (
+      <div className="container" role="status">
+        <ImSpinner9 className="w-8 h-8 text-gray-200 animate-spin dark:text-gray-600 fill-primary" />
+        <span className="sr-only">Loading...</span>
+      </div>
+    );
   }
 
   if (error) {
@@ -25,9 +32,11 @@ export default function Home() {
 
   if (user) {
     return (
-      <main>
-        <LogoutButton />
-      </main>
+      <section className="">
+        <div className="container">
+          Hello World
+        </div>
+      </section>
     );
   }
 
