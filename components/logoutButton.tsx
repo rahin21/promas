@@ -2,7 +2,8 @@
 import { logout } from '@/lib/logut';
 import { useRouter } from 'next/navigation';
 import React from 'react';
-import { Button } from './ui/button';
+import { Button } from '@/components/ui/button';
+import { FaSignOutAlt } from 'react-icons/fa';
 
 const LogoutButton = () => {
     const router = useRouter();
@@ -13,9 +14,9 @@ const LogoutButton = () => {
   };
 
   return (
-    <Button onClick={handleLogout}>
-      Logout
-    </Button>
+    <button className='text-gray-400' onClick={handleLogout}>
+      <FaSignOutAlt/>
+    </button>
   );
 };
 

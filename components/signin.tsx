@@ -19,7 +19,9 @@ import Link from "next/link";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "@/app/firebase/config";
 import { useRouter } from "next/navigation";
-import {useAuthState} from "react-firebase-hooks/auth"
+import {useAuthState} from "react-firebase-hooks/auth";
+
+let dashboard_route = "/dashboard";
 
 const FormSchema = z.object({
   email: z.string().email("Invalid email address"),
@@ -45,7 +47,7 @@ export default function SignInForm() {
     await signInWithEmailAndPassword(auth, data.email,data.password).then((userCredential)=>{
       const user = userCredential.user;
       console.log(user);
-      router.push("/")
+      router.push(dashboard_route)
     }).catch((error)=>{
       const errorCode = error.code;
     const errorMessage = error.message;
@@ -54,7 +56,7 @@ export default function SignInForm() {
     })
   }
   if(user){
-    router.push("/")
+    router.push(dashboard_route)
   }
   else{
     console.log(user);
