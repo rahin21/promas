@@ -4,6 +4,7 @@ import { db } from '@/app/firebase/config';
 import { query, ref, set } from "firebase/database";
 import { Button } from "@/components/ui/button";
 import { collection, getDocs, addDoc, CollectionReference, DocumentData, QuerySnapshot, updateDoc, doc } from 'firebase/firestore';
+import Link from 'next/link';
 
 const project_data = {
     name: "Todo App",
@@ -19,12 +20,13 @@ const project_data = {
 async function Index() {
 
     return (
-        <main>
-            <h1 className='text-2xl'>Hello World</h1>
-            <Button>
-                Add a sample project data
-            </Button>
-        </main>
+        <section className='flex h-screen items-center justify-center'>
+            <Link href={"/dashboard"}>
+                <Button>
+                    visit to dashboard
+                </Button>
+            </Link>
+        </section>
     )
 }
 
