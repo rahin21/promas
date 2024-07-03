@@ -5,11 +5,11 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import useSWR, { mutate } from "swr";
 import { useEffect, useState } from "react";
 import { ImSpinner9 } from "react-icons/im";
+import { ProjectForm } from "@/components/project/projectForm";
 import { getProjectsByOwner } from "@/lib/getProjectByOwner";
 import ProjectCard from "@/components/project/projectCard";
 import { BreadcrumbSection } from "@/app/dashboard/breadcrumb";
 import Link from "next/link";
-import Title from "@/components/title";
 
 
 // SWR fetcher function that uses your Firestore function
@@ -19,7 +19,6 @@ const fetchProjects = async (email: string) => {
 };
 
 export default function Home() {
-
   const router = useRouter();
   const [userEmail, setUserEmail] = useState<string | null>(null);
   const [user, loading, error] = useAuthState(auth);
@@ -58,9 +57,7 @@ export default function Home() {
       <section className="">
         <div className="container w-full">
           <BreadcrumbSection item={"Home"} />
-          <Title>
-            Projects
-          </Title>
+          <h1 className="font-semibold text-xl py-3">Projects</h1>
           <div className="flex flex-wrap gap-4 py-3">
             {data &&
               data.map((project, i) => (
