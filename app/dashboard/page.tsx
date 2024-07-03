@@ -2,18 +2,23 @@
 import { auth } from "@/app/firebase/config";
 import { useRouter } from "next/navigation";
 import { useAuthState } from "react-firebase-hooks/auth";
+import useSWR, { mutate } from "swr";
 import { useEffect, useState } from "react";
 import { ImSpinner9 } from "react-icons/im";
 import { ProjectForm } from "@/components/project/projectForm";
 import { getProjectsByOwner } from "@/lib/getProjectByOwner";
 import ProjectCard from "@/components/project/projectCard";
-import { DocumentData } from "firebase/firestore";
 import { BreadcrumbSection } from "@/app/dashboard/breadcrumb";
+
+// SWR fetcher function that uses your Firestore function
+const fetchProjects = async (email: string) => {
+  const projects = await getProjectsByOwner(email);
+  return projects;
+};
 
 export default function Home() {
   const router = useRouter();
   const [userEmail, setUserEmail] = useState<string | null>(null);
-  const [data, setData] = useState<DocumentData[] | null>(null);
   const [user, loading, error] = useAuthState(auth);
 
   useEffect(() => {
@@ -24,21 +29,15 @@ export default function Home() {
         setUserEmail(user.email);
       }
     }
-  }, [user, loading, router, userEmail]);
+  }, [user, loading, router]);
 
-  useEffect(() => {
-    if (userEmail) {
-      getProjectsByOwner(userEmail).then((projects) => {
-        if (projects.length <= 0) {
-          console.log("no data");
-        } else {
-          setData(projects);
-        }
-      });
-    }
-  }, [userEmail]);
+  // Use SWR to fetch projects data
+  const { data, error: dataError } = useSWR(
+    userEmail ? ["projects", userEmail] : null,
+    () => fetchProjects(userEmail!)
+  );
 
-  if (loading && !data) {
+  if (loading || (!data && !dataError)) {
     return (
       <div className="container" role="status">
         <ImSpinner9 className="w-8 h-8 text-gray-200 animate-spin dark:text-gray-600 fill-primary" />
@@ -47,27 +46,24 @@ export default function Home() {
     );
   }
 
-  if (error) {
-    return <p>Error: {error.message}</p>;
+  if (error || dataError) {
+    return <p>Error: {error ? error.message : dataError.message}</p>;
   }
- 
+
+
   if (user) {
     return (
       <section className="">
         <div className="container w-full">
           <BreadcrumbSection item={"Home"} />
-          <h1 className="text-3xl my-3">Hello World, This is Dashboard!</h1>
-          <div>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ipsum, esse. Veniam eum laborum recusandae! Sed, mollitia assumenda autem architecto officia minima cumque a ex dicta voluptas dolorum quam obcaecati ea..</div>
-          {/* <h1 className="font-semibold text-xl pb-2">
-            Projects
-          </h1>
+          <h1 className="font-semibold text-xl py-3">Projects</h1>
           <div className="flex flex-wrap gap-4 py-3">
             {data &&
-              data.map((project, i) => (
+              data.map((project: any, i: number) => (
                 <ProjectCard key={i} project={project} />
               ))}
           </div>
-          <ProjectForm userEmail={userEmail} /> */}
+          <ProjectForm userEmail={userEmail} />
         </div>
       </section>
     );
