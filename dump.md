@@ -70,6 +70,15 @@ await updateDoc(doc(db, collection_path, id), values);
 await getDocs(collection(db, collection_path));
 await addDoc(collection(db, collection_path), data);
 
+Pages:
+- Dashboard Page - shows project list
+- Project Page - shows project details and tasks
+- Task Page - shows task details, subtasks and comments
+- Profile Page - shows user profile
+
+Task Assignment
+Task Status options: todo, running, done
+Task Deadline checking
 
 Tasks:
 - Project Creation, Update, Delete
