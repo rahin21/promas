@@ -5,7 +5,6 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import useSWR, { mutate } from "swr";
 import { useEffect, useState } from "react";
 import { ImSpinner9 } from "react-icons/im";
-import { ProjectForm } from "@/components/project/projectForm";
 import { getProjectsByOwner } from "@/lib/getProjectByOwner";
 import ProjectCard from "@/components/project/projectCard";
 import { BreadcrumbSection } from "@/app/dashboard/breadcrumb";
@@ -17,6 +16,7 @@ const fetchProjects = async (email: string) => {
 };
 
 export default function Home() {
+
   const router = useRouter();
   const [userEmail, setUserEmail] = useState<string | null>(null);
   const [user, loading, error] = useAuthState(auth);
@@ -50,7 +50,6 @@ export default function Home() {
     return <p>Error: {error ? error.message : dataError.message}</p>;
   }
 
-
   if (user) {
     return (
       <section className="">
@@ -63,7 +62,6 @@ export default function Home() {
                 <ProjectCard key={i} project={project} />
               ))}
           </div>
-          <ProjectForm userEmail={userEmail} />
         </div>
       </section>
     );

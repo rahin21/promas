@@ -14,7 +14,7 @@ const LogoutButton = () => {
   };
 
   return (
-    <button className='text-gray-400' onClick={handleLogout}>
+    <button className='text-destructive' onClick={handleLogout}>
       <FaSignOutAlt/>
     </button>
   );

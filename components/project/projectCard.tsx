@@ -11,7 +11,7 @@ import { DocumentData } from "firebase/firestore";
 
 function ProjectCard({ project }: { project: DocumentData }) {
   return (
-    <Card>
+    <Card className="border-0 popup-hover">
       <CardHeader>
         <CardTitle>{project.name}</CardTitle>
       </CardHeader>

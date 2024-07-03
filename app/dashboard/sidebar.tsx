@@ -15,7 +15,7 @@ function SideButton({ data }: {
     const { icon, title, href } = data;
     return (
         <Link href={href} className="">
-            <Button variant={"ghost"} className={"text-lg bg-white justify-start space-x-2 w-full"}>
+            <Button variant={"ghost"} className={"bg-white justify-start space-x-2 w-full popup-hover sidebar-btn"}>
                 {icon}
                 <span>{title}</span>
             </Button>
@@ -25,7 +25,7 @@ function SideButton({ data }: {
 
 export default function Sidebar() {
     return (
-        <aside className="py-3">
+        <aside className="py-3 w-56">
             <nav className="flex flex-col gap-2">
                 <SideButton data={{ icon: <BsFillGearFill/>, title: "Dashboard", href: "/dashboard" }} />
                 <SideButton data={{ icon: <FaBriefcase/>, title: "Projects", href: "/dashboard/projects" }} />
