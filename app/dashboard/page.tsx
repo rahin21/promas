@@ -8,6 +8,7 @@ import { ProjectForm } from "@/components/project/projectForm";
 import { getProjectsByOwner } from "@/lib/getProjectByOwner";
 import ProjectCard from "@/components/project/projectCard";
 import { DocumentData } from "firebase/firestore";
+import { BreadcrumbSection } from "@/app/dashboard/breadcrumb";
 
 export default function Home() {
   const router = useRouter();
@@ -53,8 +54,11 @@ export default function Home() {
   if (user) {
     return (
       <section className="">
-        <div className="container">
-          <h1 className="font-semibold text-xl pb-2">
+        <div className="container w-full">
+          <BreadcrumbSection item={"Home"} />
+          <h1 className="text-3xl my-3">Hello World, This is Dashboard!</h1>
+          <div>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ipsum, esse. Veniam eum laborum recusandae! Sed, mollitia assumenda autem architecto officia minima cumque a ex dicta voluptas dolorum quam obcaecati ea..</div>
+          {/* <h1 className="font-semibold text-xl pb-2">
             Projects
           </h1>
           <div className="flex flex-wrap gap-4 py-3">
@@ -63,7 +67,7 @@ export default function Home() {
                 <ProjectCard key={i} project={project} />
               ))}
           </div>
-          <ProjectForm userEmail={userEmail} />
+          <ProjectForm userEmail={userEmail} /> */}
         </div>
       </section>
     );

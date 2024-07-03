@@ -13,7 +13,7 @@ export default function Header() {
             <nav className="container flex justify-between">
                 <div>
                     <Link href="/dashboard">
-                        <Image src={logo} alt="logo" height={35} />
+                        <Image src={logo} alt="logo" height={45} />
                     </Link>
                 </div>
                 <div className='text-2xl flex gap-4 items-center'>

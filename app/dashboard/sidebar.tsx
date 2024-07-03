@@ -1,28 +1,37 @@
 import { ImHome } from "react-icons/im";
-import { BiCog } from "react-icons/bi";
+import { BiCog, BiUserCircle } from "react-icons/bi";
+import { BsCheckSquare, BsFillGearFill, BsGearFill } from "react-icons/bs";
+import { FaBriefcase } from "react-icons/fa";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 function SideButton({ data }: {
     data: {
         icon: any;
         title: string;
+        href: string;
     };
 }) {
-    const { icon, title } = data;
+    const { icon, title, href } = data;
     return (
-        <a href="#" className="flex items-center space-x-2 py-2 rounded-lg bg-white">
-            {icon}
-            <span>{title}</span>
-        </a>
+        <Link href={href} className="">
+            <Button variant={"ghost"} className={"text-lg bg-white justify-start space-x-2 w-full"}>
+                {icon}
+                <span>{title}</span>
+            </Button>
+        </Link>
     )
 }
 
 export default function Sidebar() {
     return (
-        <aside className="flex flex-col gap-4">
-            <nav className="space-y-2">
-                <SideButton data={{ icon: <BiCog/>, title: "Dashboard" }} />
-                <SideButton data={{ icon: <ImHome/>, title: "Profile" }} />
-                <SideButton data={{ icon: <ImHome/>, title: "Settings" }} />
+        <aside className="py-3">
+            <nav className="flex flex-col gap-2">
+                <SideButton data={{ icon: <BsFillGearFill/>, title: "Dashboard", href: "/dashboard" }} />
+                <SideButton data={{ icon: <FaBriefcase/>, title: "Projects", href: "/dashboard/projects" }} />
+                <SideButton data={{ icon: <BsCheckSquare/>, title: "Tasks", href: "/dashboard/tasks" }} />
+                <SideButton data={{ icon: <BiUserCircle/>, title: "Profile", href: "/dashboard/profile" }} />
+                <SideButton data={{ icon: <BsGearFill/>, title: "Settings", href: "/dashboard/settings" }} />
             </nav>
         </aside>
     )
