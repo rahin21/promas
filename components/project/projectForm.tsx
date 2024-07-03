@@ -15,7 +15,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { addDoc, collection } from "firebase/firestore";
 import { db } from "@/app/firebase/config";
-import { getProjectsByOwner } from "@/lib/getProjectByOwner";
+import  { mutate } from "swr";
 
 const formSchema = z.object({
   project_name: z.string().min(2, {
@@ -51,6 +51,7 @@ export function ProjectForm({ userEmail }: { userEmail: string | null }) {
         project_name: "",
         deadline: "",
       });
+      mutate(["projects", userEmail]);
     } catch (error) {
       console.error("Error adding document: ", error);
     }
@@ -58,7 +59,7 @@ export function ProjectForm({ userEmail }: { userEmail: string | null }) {
 
   return (
     <Form {...form} >
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 md:w-[50%]">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 max-w-[25%]">
         <h1 className="font-semibold text-xl mt-5">Add A Project</h1>
         <FormField
           control={form.control}
