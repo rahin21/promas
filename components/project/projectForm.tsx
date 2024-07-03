@@ -59,7 +59,7 @@ export function ProjectForm({ userEmail }: { userEmail: string | null }) {
 
   return (
     <Form {...form} >
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 max-w-[25%]">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 w-full max-w-80">
         <h1 className="font-semibold text-xl mt-5">Add A Project</h1>
         <FormField
           control={form.control}
