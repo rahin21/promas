@@ -7,6 +7,7 @@ import LogoutButton from '@/components/logoutButton';
 import { ImHome } from 'react-icons/im';
 import { IoPersonCircleSharp } from 'react-icons/io5';
 import { BiCog } from 'react-icons/bi';
+import CreateProject from './create-project';
 export default function Header() {
     return (
         <header className="py-4">
@@ -16,14 +17,15 @@ export default function Header() {
                         <Image src={logo} alt="logo" height={45} />
                     </Link>
                 </div>
-                <div className='text-2xl flex gap-4 items-center'>
-                    <LogoutButton />
-                    <Link href="/settings">
+                <div className='flex gap-4 items-center'>
+                    <CreateProject />
+                    <Link href="/settings" className='text-2xl'>
                         <BiCog />
                     </Link>
-                    <Link href="/profile">
+                    <Link href="/profile" className='text-3xl text-primary'>
                         <IoPersonCircleSharp />
                     </Link>
+                    <LogoutButton />
                 </div>
             </nav>
         </header>

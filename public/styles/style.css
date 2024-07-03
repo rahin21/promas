@@ -8,3 +8,16 @@ html {
     margin: 0 auto;
     padding: 0 1rem;
 }
+/* sidebar hover */
+.sidebar-btn:hover {
+    background-color: white;
+}
+/* popup hover */
+.popup-hover {
+    cursor: pointer;
+    transition: all 0.1s ease-in-out;
+}
+.popup-hover:hover {
+    transform: scale(1.05);
+    box-shadow: 0 10px 10px rgba(0, 0, 0, 0.1);
+}
