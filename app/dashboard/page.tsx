@@ -9,6 +9,9 @@ import { ProjectForm } from "@/components/project/projectForm";
 import { getProjectsByOwner } from "@/lib/getProjectByOwner";
 import ProjectCard from "@/components/project/projectCard";
 import { BreadcrumbSection } from "@/app/dashboard/breadcrumb";
+import Link from "next/link";
+import Title from "@/components/title";
+
 
 // SWR fetcher function that uses your Firestore function
 const fetchProjects = async (email: string) => {
@@ -45,22 +48,25 @@ export default function Home() {
       </div>
     );
   }
-
+  // console.log(data);
   if (error || dataError) {
     return <p>Error: {error ? error.message : dataError.message}</p>;
   }
-
 
   if (user) {
     return (
       <section className="">
         <div className="container w-full">
           <BreadcrumbSection item={"Home"} />
-          <h1 className="font-semibold text-xl py-3">Projects</h1>
+          <Title>
+            Projects
+          </Title>
           <div className="flex flex-wrap gap-4 py-3">
             {data &&
-              data.map((project: any, i: number) => (
-                <ProjectCard key={i} project={project} />
+              data.map((project, i) => (
+                <Link href={`/dashboard/projects/${project.id}`} key={project.id}>
+                  <ProjectCard  project={project} />
+                </Link>
               ))}
           </div>
           <ProjectForm userEmail={userEmail} />
