@@ -43,7 +43,7 @@ export default function CreateProject() {
                 <DialogHeader>
                     <DialogTitle className="text-xl">Add New Project</DialogTitle>
                     <DialogDescription>
-                        Make changes to your profile here. Click save when you're done.
+                        Make changes to your profile here. Click save when {"you're"} done.
                     </DialogDescription>
                 </DialogHeader>
                 <ProjectForm userEmail={userEmail} />
