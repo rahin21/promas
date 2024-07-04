@@ -1,13 +1,11 @@
-import { db } from "@/app/firebase/config";
 import { fetchDocumentById } from "@/lib/getProjectById";
 import React from "react";
-import {
-  Card,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { BreadcrumbSection } from "../../breadcrumb";
+import { BsCheckSquare } from "react-icons/bs";
+import CreateTask from "@/components/task/createTask";
 
 async function Project({ params }: { params: { id: string } }) {
+
   const { id } = params;
   let data;
 
@@ -16,28 +14,26 @@ async function Project({ params }: { params: { id: string } }) {
   } catch (error) {
     console.log(error);
   }
-  console.log(data);
-  return (
-    <div>
-      <Card>
-        <CardHeader>
-          <CardTitle className="font-semibold text-xl capitalize">
-            Project
-          </CardTitle>
-          <CardTitle className="font-semibold text-lg capitalize">
-            Name: {data?.name}
-          </CardTitle>
-          <CardTitle className="font-semibold text-lg ">
-            Manager: {data?.owner}{" "}
-          </CardTitle>
-          <CardTitle className="font-semibold text-lg ">
-            Deadline: {data?.deadline} 🔴
-          </CardTitle>
-        </CardHeader>
-      </Card>
 
-      
-    </div>
+  return (
+    <section className="w-full">
+      <div className="container">
+        <BreadcrumbSection item={data?.name} />
+        <h1 className="font-semibold text-2xl py-3 flex gap-3 items-center">
+          <BsCheckSquare className="text-primary" />
+          Project: {data?.name}
+        </h1>
+        <div className="flex justify-between mb-3">
+          <div>Owner: {data?.owner}</div>
+          <div>Deadline: {data?.deadline}</div>
+        </div>
+        <h2 className="fw-bold text-xl mb-2">Available Tasks</h2>
+        <div className="bg-gray-200 h-1 w-full mb-3"></div>
+        <div className="flex flex-wrap gap-4 py-3">
+          <CreateTask />
+        </div>
+      </div>
+    </section>
   );
 }
 

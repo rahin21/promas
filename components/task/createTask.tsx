@@ -1,22 +1,19 @@
 "use client";
-import { ProjectForm } from "@/components/project/projectForm"
-import { Button } from "@/components/ui/button"
 import {
     Dialog,
     DialogContent,
     DialogDescription,
-    DialogFooter,
     DialogHeader,
     DialogTitle,
     DialogTrigger,
 } from "@/components/ui/dialog"
-import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { auth } from "../firebase/config";
-import { FaPlus } from "react-icons/fa";
+import { auth } from "../../app/firebase/config";
+import { FaPlusCircle } from "react-icons/fa";
+import { TaskForm } from "./taskForm";
 
-export default function CreateProject() {
+export default function CreateTask() {
 
     const [userEmail, setUserEmail] = useState<string | null>(null);
     const [user, loading, error] = useAuthState(auth);
@@ -34,19 +31,19 @@ export default function CreateProject() {
     return (
         <Dialog>
             <DialogTrigger asChild>
-                <Button variant={"outline"}>
-                    <span className="mr-3"><FaPlus /></span>
-                    Add New Project
-                </Button>
+                <div className="w-44 min-h-44 rounded-sm bg-white popup-hover flex flex-col justify-center items-center gap-3">
+                <FaPlusCircle className="text-5xl text-primary" />
+                    Create Task
+                </div>
             </DialogTrigger>
             <DialogContent className="sm:max-w-[425px]">
                 <DialogHeader>
-                    <DialogTitle className="text-xl">Add New Project</DialogTitle>
+                    <DialogTitle className="text-2xl">Add New Task</DialogTitle>
                     <DialogDescription>
-                        Make changes to your profile here. Click save when {"you're"} done.
+                        Fillup the form below to add a new task.
                     </DialogDescription>
                 </DialogHeader>
-                <ProjectForm userEmail={userEmail} />
+                <TaskForm userEmail={userEmail} />
             </DialogContent>
         </Dialog>
     )
