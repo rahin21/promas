@@ -35,7 +35,7 @@ export function TaskForm({ userEmail }: { userEmail: string | null }) {
           name="task_name"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Project Name</FormLabel>
+              <FormLabel>Task Name</FormLabel>
               <FormControl>
                 <Input placeholder="Enter the project name" {...field} />
               </FormControl>

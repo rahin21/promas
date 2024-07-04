@@ -3,9 +3,25 @@ import React from "react";
 import { BreadcrumbSection } from "../../breadcrumb";
 import { BsCheckSquare } from "react-icons/bs";
 import CreateTask from "@/components/task/createTask";
+import TaskCard from "@/components/task/taskCard";
+import Link from "next/link";
+
+const tasks = [
+  {
+    id: 0,
+    name: "Front-End",
+    assignee: "rejwanislam@gmail.com",
+    deadline: "24-Jul-2024T10:49am",
+  },
+  {
+    id: 1,
+    name: "Back-End",
+    assignee: "imranhossen@gmail.com",
+    deadline: "24-Jul-2024T10:56am",
+  },
+];
 
 async function Project({ params }: { params: { id: string } }) {
-
   const { id } = params;
   let data;
 
@@ -31,6 +47,12 @@ async function Project({ params }: { params: { id: string } }) {
         <div className="bg-gray-200 h-1 w-full mb-3"></div>
         <div className="flex flex-wrap gap-4 py-3">
           <CreateTask />
+
+          {tasks.map((task, i) => (
+            <Link href={`/dashboard/tasks/${task.id}`} key={i}>
+              <TaskCard task={task} />
+            </Link>
+          ))}
         </div>
       </div>
     </section>
