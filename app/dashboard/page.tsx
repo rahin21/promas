@@ -10,6 +10,8 @@ import { getProjectsByOwner } from "@/lib/getProjectByOwner";
 import ProjectCard from "@/components/project/projectCard";
 import { BreadcrumbSection } from "@/app/dashboard/breadcrumb";
 import Link from "next/link";
+import { FaBriefcase, FaPlusCircle } from "react-icons/fa";
+import CreateProject from "@/components/project/createProject";
 
 
 // SWR fetcher function that uses your Firestore function
@@ -19,6 +21,7 @@ const fetchProjects = async (email: string) => {
 };
 
 export default function Home() {
+
   const router = useRouter();
   const [userEmail, setUserEmail] = useState<string | null>(null);
   const [user, loading, error] = useAuthState(auth);
@@ -54,11 +57,16 @@ export default function Home() {
 
   if (user) {
     return (
-      <section className="">
-        <div className="container w-full">
+      <section className="w-full">
+        <div className="container">
           <BreadcrumbSection item={"Home"} />
-          <h1 className="font-semibold text-xl py-3">Projects</h1>
+          <h1 className="font-semibold text-2xl py-3 flex gap-3 items-center">
+            <FaBriefcase className="text-primary"/>
+            Your Projects
+          </h1>
+          <div className="bg-gray-200 h-1 w-full mb-4"></div>
           <div className="flex flex-wrap gap-4 py-3">
+            <CreateProject />
             {data &&
               data.map((project, i) => (
                 <Link href={`/dashboard/projects/${project.id}`} key={project.id}>

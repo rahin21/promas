@@ -23,7 +23,7 @@ export default function RootLayout({
       <Header></Header>
       <main className="container flex gap-4">
         <Sidebar></Sidebar>
-        <div className="py-3">{children}</div>
+        <div className="py-3 w-full">{children}</div>
       </main>
     </>
   );
