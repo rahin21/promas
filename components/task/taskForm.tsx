@@ -1,76 +1,76 @@
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
-
 import { Button } from "@/components/ui/button";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
+import { FormEvent } from 'react'
+import FormInput from "../form-input";
 
-const formSchema = z.object({
-  task_name: z.string().min(2, {
-    message: "project_name must be at least 2 characters.",
-  }),
-  assignee: z.string(),
-  deadline: z.string().min(2, {}),
-});
+export default function TaskForm({ userEmail, project }: { 
+  userEmail: string | null,
+  project: string | null 
+}) {
+  async function onSubmit(event: FormEvent<HTMLFormElement>) {
 
-export function TaskForm({ userEmail }: { userEmail: string | null }) {
+    event.preventDefault()
 
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema)
-  });
+    const formData = new FormData(event.currentTarget)
+    const formDataObj = Object.fromEntries(formData)
+    
+    let tasks = JSON.parse(localStorage.getItem('tasks') || '[]');
+
+    const taskId = formDataObj['name'];
+
+    if (taskId) {
+      const taskIndex = tasks.findIndex((task: any) => task.name === taskId)
+      if (taskIndex !== -1) {
+        tasks[taskIndex] = formDataObj
+      } else {
+        tasks.push(formDataObj)  
+      }
+    } else {
+      tasks.push(formDataObj)
+    }
+
+    localStorage.setItem('tasks', JSON.stringify(tasks));
+
+    window.location.reload();
+    
+
+  }
 
   return (
-    <Form {...form} >
-      <form className="space-y-4 w-full">
-        <FormField
-          control={form.control}
-          name="task_name"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Task Name</FormLabel>
-              <FormControl>
-                <Input placeholder="Enter the project name" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="deadline"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Deadline</FormLabel>
-              <FormControl>
-                <Input type="datetime-local" placeholder="" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="assignee"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Assignee</FormLabel>
-              <FormControl>
-                <Input type="text" placeholder="" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <Button type="submit" className="my-3 px-6">Create Task</Button>
-      </form>
-    </Form>
-  );
+    <form onSubmit={onSubmit}>
+      <FormInput data={{
+        label: "Task Name",
+        input_name: "name",
+        type: "text",
+        placeholder: "Write task name here",
+        required: true
+      }} />
+      <FormInput data={{
+        label: "Task Description",
+        input_name: "description",
+        type: "text",
+        placeholder: "Write task description here",
+        required: true
+      }} />
+      <FormInput data={{
+        label: "Assign User",
+        input_name: "assignee",
+        type: "email",
+        placeholder: "john.doe@company.com",
+        required: true
+      }} />
+      <FormInput data={{
+        label: "Deadline",
+        input_name: "deadline",
+        type: "date",
+        placeholder: "Select a date",
+        required: true
+      }} />
+      <div className="hidden">
+        <input type="text" name="task_id" value={`${Date.now()}-${Math.random()}`} />
+        <input type="text" name="owner" value={userEmail ?? ""} />
+        <input type="text" name="project" value={project ?? ""} />
+      </div>
+      <Button type="submit" className="my-3 px-6">Create Task</Button>
+    </form>
+  )
 }

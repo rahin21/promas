@@ -20,6 +20,7 @@ const formSchema = z.object({
   project_name: z.string().min(2, {
     message: "project_name must be at least 2 characters.",
   }),
+  description: z.string().min(2, {}),
   deadline: z.string().min(2, {}),
 });
 
@@ -67,6 +68,19 @@ export function ProjectForm({ userEmail }: { userEmail: string | null }) {
               <FormLabel>Project Name</FormLabel>
               <FormControl>
                 <Input placeholder="Enter the project name" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="description"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Project Description</FormLabel>
+              <FormControl>
+                <Input placeholder="Enter the project description" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>

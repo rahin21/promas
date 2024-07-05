@@ -11,9 +11,9 @@ import { useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "../../app/firebase/config";
 import { FaPlusCircle } from "react-icons/fa";
-import { TaskForm } from "./taskForm";
+import TaskForm from "./taskForm";
 
-export default function CreateTask() {
+export default function CreateTask({ project }: { project: string | null }) {
 
     const [userEmail, setUserEmail] = useState<string | null>(null);
     const [user, loading, error] = useAuthState(auth);
@@ -43,7 +43,7 @@ export default function CreateTask() {
                         Fillup the form below to add a new task.
                     </DialogDescription>
                 </DialogHeader>
-                <TaskForm userEmail={userEmail} />
+                <TaskForm userEmail={userEmail} project={project} />
             </DialogContent>
         </Dialog>
     )

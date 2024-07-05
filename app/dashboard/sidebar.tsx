@@ -28,8 +28,6 @@ export default function Sidebar() {
         <aside className="py-3 w-56">
             <nav className="flex flex-col gap-2">
                 <SideButton data={{ icon: <BsFillGearFill/>, title: "Dashboard", href: "/dashboard" }} />
-                <SideButton data={{ icon: <FaBriefcase/>, title: "Projects", href: "/dashboard/projects" }} />
-                <SideButton data={{ icon: <BsCheckSquare/>, title: "Tasks", href: "/dashboard/tasks" }} />
                 <SideButton data={{ icon: <BiUserCircle/>, title: "Profile", href: "/dashboard/profile" }} />
                 <SideButton data={{ icon: <BsGearFill/>, title: "Settings", href: "/dashboard/settings" }} />
             </nav>

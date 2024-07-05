@@ -1,5 +1,5 @@
 import React from 'react'
-import { BreadcrumbSection } from "@/app/dashboard/breadcrumb";
+import { BreadcrumbSection } from "@/components/breadcrumb";
 
 export default function page() {
   return (

@@ -11,15 +11,17 @@ import { DocumentData } from "firebase/firestore";
 
 function ProjectCard({ project }: { project: DocumentData }) {
   return (
-    <Card className="border-0 popup-hover">
+    <Card className="border-0 popup-hover w-72 min-h-44">
       <CardHeader>
         <CardTitle>{project.name}</CardTitle>
       </CardHeader>
       <CardContent>
-        <CardDescription>created By: </CardDescription>
-        <CardDescription>{project.owner}</CardDescription>
+        <CardDescription>{project?.description || "No Description"}</CardDescription>
       </CardContent>
-      <CardFooter>{project.deadline}</CardFooter>
+      <CardFooter className="justify-between text-sm">
+        <div>{project.deadline.split("T")[0]}</div>
+        <div>{project.deadline.split("T")[1]}</div>
+      </CardFooter>
     </Card>
   );
 }

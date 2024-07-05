@@ -7,19 +7,22 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { DocumentData } from "firebase/firestore";
 
 function TaskCard({ task }: { task: any }) {
   return (
-    <Card className="border-0 popup-hover">
+    <Card className="border-0 popup-hover w-72 min-h-44">
       <CardHeader>
-        <CardTitle>{task.name}</CardTitle>
+        <CardTitle className="text-xl">{task.name}</CardTitle>
       </CardHeader>
       <CardContent>
-        <CardDescription>Assignee: </CardDescription>
-        <CardDescription>{task.assignee}</CardDescription>
+        <CardDescription>{task.description || "No Description"}</CardDescription>
       </CardContent>
-      <CardFooter>{task.deadline}</CardFooter>
+      <CardFooter className="justify-between text-sm">
+        <div>
+          {task.deadline.split("T")[0]}
+        </div>
+        <div>{task.deadline.split("T")[1]}</div>
+      </CardFooter>
     </Card>
   );
 }

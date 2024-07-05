@@ -8,7 +8,7 @@ import { ImSpinner9 } from "react-icons/im";
 import { ProjectForm } from "@/components/project/projectForm";
 import { getProjectsByOwner } from "@/lib/getProjectByOwner";
 import ProjectCard from "@/components/project/projectCard";
-import { BreadcrumbSection } from "@/app/dashboard/breadcrumb";
+import { BreadcrumbSection } from "@/components/breadcrumb";
 import Link from "next/link";
 import { FaBriefcase, FaPlusCircle } from "react-icons/fa";
 import CreateProject from "@/components/project/createProject";
@@ -59,12 +59,11 @@ export default function Home() {
     return (
       <section className="w-full">
         <div className="container">
-          <BreadcrumbSection item={"Home"} />
+          <BreadcrumbSection item={"Projects"} />
           <h1 className="font-semibold text-2xl py-3 flex gap-3 items-center">
             <FaBriefcase className="text-primary"/>
             Your Projects
           </h1>
-          <div className="bg-gray-200 h-1 w-full mb-4"></div>
           <div className="flex flex-wrap gap-4 py-3">
             <CreateProject />
             {data &&

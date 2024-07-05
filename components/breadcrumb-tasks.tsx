@@ -11,11 +11,17 @@ import {
 
 export function BreadcrumbSection({ item }: { item: string }) {
   return (
-    <Breadcrumb>
+    <Breadcrumb className="mb-4">
       <BreadcrumbList>
         <BreadcrumbItem>
           <BreadcrumbLink>
             <Link href="/dashboard">Dashboard</Link>
+          </BreadcrumbLink>
+        </BreadcrumbItem>
+        <BreadcrumbSeparator />
+        <BreadcrumbItem>
+          <BreadcrumbLink>
+            Task
           </BreadcrumbLink>
         </BreadcrumbItem>
         <BreadcrumbSeparator />

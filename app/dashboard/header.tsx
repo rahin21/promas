@@ -16,7 +16,7 @@ export default function Header() {
           </Link>
         </div>
         <div className="flex gap-4 items-center">
-          <Link href="/profile" className="text-3xl text-primary">
+          <Link href="/dashboard/profile" className="text-3xl text-primary">
             <IoPersonCircleSharp />
           </Link>
           <LogoutButton />

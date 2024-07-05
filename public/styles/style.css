@@ -2,6 +2,13 @@
 html {
     font-size: 16px;
 }
+/* body background */
+body {
+    background-image: url("../images/gradient-bg.avif");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+}
 /* container for the page */
 .container {
     max-width: 1200px;
